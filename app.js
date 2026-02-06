@@ -102,10 +102,13 @@ function showToast(message) {
     const particle = document.createElement("span");
     particle.className = "firework-particle";
     const angle = (Math.PI * 2 * i) / 20;
-    const distance = 38 + Math.random() * 42;
+    const maxRadius = window.innerWidth * 0.33;
+    const distance = maxRadius * (0.55 + Math.random() * 0.45);
     particle.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
     particle.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
     particle.style.setProperty("--delay", `${Math.random() * 0.08}s`);
+    const colors = ["#f97316", "#f59e0b", "#f43f5e", "#ec4899", "#8b5cf6", "#22c55e", "#38bdf8"];
+    particle.style.setProperty("--color", colors[Math.floor(Math.random() * colors.length)]);
     burst.appendChild(particle);
   }
   document.body.appendChild(burst);

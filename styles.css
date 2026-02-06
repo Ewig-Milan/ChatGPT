@@ -133,6 +133,8 @@ h2 { margin: 0; }
   font-size: 1.5rem;
   line-height: 1.2;
   letter-spacing: 0.2px;
+  display: inline-block;
+  align-self: flex-start;
 }
 
 .problem-title:hover { color: #1e3a8a; }
@@ -184,9 +186,13 @@ h2 { margin: 0; }
 .form-wrap {
   max-width: 760px;
   margin: 1.5rem auto;
-  padding: 0 1rem;
+  padding: 1.25rem 1rem;
   display: grid;
   gap: 1rem;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
 }
 
 .settings-title { margin-bottom: 0.8rem; }
@@ -270,13 +276,14 @@ select { font-weight: 700; }
   --dx: 0px;
   --dy: 0px;
   --delay: 0s;
+  --color: #7ec0ff;
   position: absolute;
   left: 0;
   top: 0;
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #fff, #7ec0ff 52%, #3b82f6 100%);
+  background: radial-gradient(circle at 30% 30%, #fff, var(--color) 55%, rgba(15, 23, 42, 0.25) 100%);
   opacity: 0;
 }
 
@@ -289,4 +296,3 @@ select { font-weight: 700; }
   75% { opacity: 1; }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.08); }
 }
-
