@@ -96,25 +96,6 @@ function consumeUpgradeEffect() {
 function showToast(message) {
   if (!message) return;
 
-  const burst = document.createElement("div");
-  burst.className = "firework-burst";
-  const particleCount = 120;
-  for (let i = 0; i < particleCount; i += 1) {
-    const particle = document.createElement("span");
-    particle.className = "firework-particle";
-    const angle = (Math.PI * 2 * i) / particleCount;
-    const maxRadius = window.innerWidth * 0.33;
-    const distance = maxRadius * (0.55 + Math.random() * 0.45);
-    particle.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
-    particle.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
-    particle.style.setProperty("--delay", `${Math.random() * 0.08}s`);
-    particle.style.setProperty("--size", `${(1 + Math.random() * 4).toFixed(2)}px`);
-    const colors = ["#f97316", "#f59e0b", "#f43f5e", "#ec4899", "#8b5cf6", "#22c55e", "#38bdf8"];
-    particle.style.setProperty("--color", colors[Math.floor(Math.random() * colors.length)]);
-    burst.appendChild(particle);
-  }
-  document.body.appendChild(burst);
-
   const toast = document.createElement("div");
   toast.className = "upgrade-toast";
   toast.textContent = message;
@@ -122,14 +103,11 @@ function showToast(message) {
 
   setTimeout(() => {
     toast.classList.add("visible");
-    burst.classList.add("visible");
   }, 20);
 
   setTimeout(() => {
     toast.classList.remove("visible");
-    burst.classList.remove("visible");
     setTimeout(() => toast.remove(), 300);
-    setTimeout(() => burst.remove(), 450);
   }, 1700);
 }
 
