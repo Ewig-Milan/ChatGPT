@@ -24,6 +24,23 @@ body {
   background-size: 120% 120%;
   color: var(--text);
   animation: bgFlow 14s ease-in-out infinite;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.34;
+  background-image:
+    linear-gradient(rgba(79, 143, 203, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 143, 203, 0.09) 1px, transparent 1px),
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.28), transparent 26%);
+  background-size: 24px 24px, 24px 24px, 100% 100%;
+  mix-blend-mode: soft-light;
+  z-index: -1;
 }
 
 @keyframes bgFlow {
@@ -219,8 +236,8 @@ select { font-weight: 700; }
 
 .upgrade-toast {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
+  left: 50%;
+  top: 16px;
   z-index: 999;
   background: #1f5f99;
   color: #fff;
@@ -228,11 +245,47 @@ select { font-weight: 700; }
   padding: 0.65rem 0.9rem;
   box-shadow: 0 10px 26px rgba(31, 95, 153, 0.35);
   opacity: 0;
-  transform: translateY(10px);
+  transform: translate(-50%, -16px);
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .upgrade-toast.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
 }
+
+.firework-burst {
+  position: fixed;
+  left: 50%;
+  top: 48px;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  z-index: 998;
+}
+
+.firework-particle {
+  --dx: 0px;
+  --dy: 0px;
+  --delay: 0s;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #fff, #7ec0ff 52%, #3b82f6 100%);
+  opacity: 0;
+}
+
+.firework-burst.visible .firework-particle {
+  animation: fireworkBlast 0.62s ease-out var(--delay) forwards;
+}
+
+@keyframes fireworkBlast {
+  0% { opacity: 1; transform: translate(0, 0) scale(0.35); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.08); }
+}
+
+.label-plain { font-weight: 400; }

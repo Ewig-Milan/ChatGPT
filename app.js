@@ -95,14 +95,36 @@ function consumeUpgradeEffect() {
 
 function showToast(message) {
   if (!message) return;
+
+  const burst = document.createElement("div");
+  burst.className = "firework-burst";
+  for (let i = 0; i < 20; i += 1) {
+    const particle = document.createElement("span");
+    particle.className = "firework-particle";
+    const angle = (Math.PI * 2 * i) / 20;
+    const distance = 38 + Math.random() * 42;
+    particle.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+    particle.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
+    particle.style.setProperty("--delay", `${Math.random() * 0.08}s`);
+    burst.appendChild(particle);
+  }
+  document.body.appendChild(burst);
+
   const toast = document.createElement("div");
   toast.className = "upgrade-toast";
   toast.textContent = message;
   document.body.appendChild(toast);
-  setTimeout(() => toast.classList.add("visible"), 20);
+
+  setTimeout(() => {
+    toast.classList.add("visible");
+    burst.classList.add("visible");
+  }, 20);
+
   setTimeout(() => {
     toast.classList.remove("visible");
+    burst.classList.remove("visible");
     setTimeout(() => toast.remove(), 300);
+    setTimeout(() => burst.remove(), 450);
   }, 1700);
 }
 
