@@ -22,6 +22,11 @@ function getDifficultyConfig(value) {
   return DIFFICULTIES.find((item) => item.value === value) || DIFFICULTIES[0];
 }
 
+function extractProblemCode(link) {
+  const match = link.match(/\/problem\/([^/?#]+)/i);
+  return match ? match[1] : link;
+}
+
 function loadProblems() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
@@ -45,6 +50,12 @@ function addProblem(problem) {
   saveProblems(all);
 }
 
+function deleteProblem(id) {
+  const all = loadProblems();
+  const updated = all.filter((item) => item.id !== id);
+  saveProblems(updated);
+}
+
 function moveProblemToNextPool(id) {
   const all = loadProblems();
   const nextOrder = { todo: "coding", coding: "done", done: "done" };
@@ -59,6 +70,11 @@ function moveProblemToNextPool(id) {
 
 function findProblemById(id) {
   return loadProblems().find((item) => item.id === id);
+}
+
+function getPoolName(poolKey) {
+  const pool = POOLS.find((item) => item.key === poolKey);
+  return pool ? pool.name : poolKey;
 }
 
 function initBoard() {
@@ -96,18 +112,19 @@ function initBoard() {
       const diffConfig = getDifficultyConfig(problem.difficulty);
 
       const titleLink = node.querySelector(".problem-title");
-      titleLink.textContent = problem.link;
-      titleLink.href = problem.link;
+      titleLink.textContent = extractProblemCode(problem.link);
+      titleLink.href = `problem.html?id=${encodeURIComponent(problem.id)}`;
+
+      const sourceLink = node.querySelector(".source-link");
+      sourceLink.href = problem.link;
 
       const diffTag = node.querySelector(".difficulty");
       diffTag.textContent = diffConfig.label;
       diffTag.style.color = diffConfig.color;
+      diffTag.style.fontWeight = "700";
 
       const note = node.querySelector(".problem-note");
       note.textContent = problem.note || "（暂无备注）";
-
-      const detailLink = node.querySelector(".detail-link");
-      detailLink.href = `problem.html?id=${encodeURIComponent(problem.id)}`;
 
       const upgrade = node.querySelector(".upgrade-btn");
       if (poolIndex === POOLS.length - 1) {
@@ -119,6 +136,12 @@ function initBoard() {
           initBoard();
         });
       }
+
+      const remove = node.querySelector(".delete-btn");
+      remove.addEventListener("click", () => {
+        deleteProblem(problem.id);
+        initBoard();
+      });
 
       list.appendChild(node);
     });

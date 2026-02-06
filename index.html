@@ -17,13 +17,14 @@
     <template id="problemCardTemplate">
       <article class="problem-card">
         <div class="problem-head">
-          <a class="problem-title" target="_blank" rel="noopener noreferrer"></a>
+          <a class="problem-title"></a>
           <span class="difficulty"></span>
         </div>
         <p class="problem-note"></p>
         <div class="problem-actions">
-          <a class="button ghost detail-link">题目页面</a>
+          <a class="button ghost source-link" target="_blank" rel="noopener noreferrer">原题链接</a>
           <button class="button upgrade-btn" type="button">升级到下一池</button>
+          <button class="button danger delete-btn" type="button">删除题目</button>
         </div>
       </article>
     </template>

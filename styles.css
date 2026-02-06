@@ -7,7 +7,6 @@
   --blue-soft: #dfeeff;
   --green-main: #52b66a;
   --green-soft: #e4f7e7;
-  --purple-main: #9344c8;
 }
 
 * {
@@ -72,9 +71,17 @@ h2 {
 }
 
 @keyframes moving {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .pool-done {
@@ -102,10 +109,10 @@ h2 {
 }
 
 .problem-title {
-  word-break: break-all;
   color: #1d4ed8;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.05rem;
 }
 
 .problem-title:hover {
@@ -137,6 +144,7 @@ h2 {
   padding: 0.45rem 0.8rem;
   text-decoration: none;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .button:disabled {
@@ -153,6 +161,11 @@ h2 {
 .button.ghost {
   background: #eef2f7;
   color: #111827;
+}
+
+.button.danger {
+  background: #ef4444;
+  color: #fff;
 }
 
 .form-wrap {
@@ -178,6 +191,10 @@ textarea {
   border-radius: 8px;
   padding: 0.55rem 0.65rem;
   font: inherit;
+}
+
+select {
+  font-weight: 700;
 }
 
 .row {
