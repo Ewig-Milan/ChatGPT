@@ -6,7 +6,6 @@
   --blue-main: #2f76bc;
   --blue-main-light: #4f8fcb;
   --blue-soft: #dfeeff;
-  --green-main: #52b66a;
   --green-soft: #e4f7e7;
 }
 
@@ -84,17 +83,9 @@ h2 {
 }
 
 @keyframes moving {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .pool-done {
@@ -116,6 +107,10 @@ h2 {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.problem-card {
+  cursor: pointer;
+}
+
 .problem-card:hover,
 .card:hover {
   transform: translateY(-2px);
@@ -129,15 +124,16 @@ h2 {
 }
 
 .problem-title {
-  color: #1e3a8a;
+  color: #7db7ff;
   text-decoration: none;
   font-weight: 800;
-  font-size: 1.22rem;
+  font-size: 1.5rem;
+  line-height: 1.2;
   letter-spacing: 0.2px;
 }
 
 .problem-title:hover {
-  color: #2f76bc;
+  color: #1e3a8a;
 }
 
 .difficulty {
@@ -184,39 +180,44 @@ h2 {
 
 .button.primary,
 .button.upgrade-btn {
-  background: var(--blue-main);
+  background: var(--blue-main-light);
   color: #fff;
 }
 
 .button.primary:hover,
 .button.upgrade-btn:hover {
-  background: var(--blue-main-light);
+  background: var(--blue-main);
+}
+
+.button.upgrade-btn {
+  font-size: 1rem;
+  padding: 0.65rem 1.1rem;
 }
 
 .button.ghost {
-  background: #e5eaf2;
+  background: #eef2f7;
   color: #111827;
 }
 
 .button.ghost:hover {
-  background: #eef2f7;
+  background: #e5eaf2;
 }
 
 .button.danger {
-  background: #dc2626;
+  background: #ef4444;
   color: #fff;
 }
 
 .button.danger:hover {
-  background: #ef4444;
+  background: #dc2626;
 }
 
 .button.strong {
-  background: #1f5f99;
+  background: #2f76bc;
 }
 
 .button.strong:hover {
-  background: #2f76bc;
+  background: #1f5f99;
 }
 
 .form-wrap {
@@ -225,6 +226,10 @@ h2 {
   padding: 0 1rem;
   display: grid;
   gap: 1rem;
+}
+
+.settings-title {
+  margin-bottom: 0.8rem;
 }
 
 label {
@@ -264,15 +269,8 @@ select {
 }
 
 @keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: translateY(8px) scale(0.98);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  0% { opacity: 0; transform: translateY(8px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .submitting {
@@ -280,15 +278,7 @@ select {
 }
 
 @keyframes submitPulse {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.995);
-  }
-
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(0.995); }
+  100% { transform: scale(1); }
 }

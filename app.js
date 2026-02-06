@@ -51,6 +51,12 @@ function addProblem(problem) {
   saveProblems(all);
 }
 
+function updateProblem(id, patch) {
+  const all = loadProblems();
+  const updated = all.map((item) => (item.id === id ? { ...item, ...patch } : item));
+  saveProblems(updated);
+}
+
 function deleteProblem(id) {
   const all = loadProblems();
   const updated = all.filter((item) => item.id !== id);
@@ -138,16 +144,18 @@ function initBoard() {
         upgrade.disabled = true;
         upgrade.textContent = "已在最终题池";
       } else {
-        upgrade.addEventListener("click", () => {
+        upgrade.addEventListener("click", (event) => {
+          event.stopPropagation();
           moveProblemToNextPool(problem.id);
           initBoard();
         });
       }
 
-      const remove = node.querySelector(".delete-btn");
-      remove.addEventListener("click", () => {
-        deleteProblem(problem.id);
-        initBoard();
+      node.addEventListener("click", (event) => {
+        if (event.target.closest(".upgrade-btn") || event.target.closest(".problem-title")) {
+          return;
+        }
+        window.location.href = `problem.html?id=${encodeURIComponent(problem.id)}`;
       });
 
       if (problem.id === newId) {

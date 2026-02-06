@@ -1,6 +1,6 @@
 (function initProblemDetail() {
-  const detail = document.getElementById("problemDetail");
-  if (!detail) {
+  const form = document.getElementById("problemSettingsForm");
+  if (!form) {
     return;
   }
 
@@ -9,18 +9,62 @@
   const problem = id ? findProblemById(id) : null;
 
   if (!problem) {
-    detail.innerHTML = "<h1>题目不存在</h1><p>可能已被删除，或链接参数有误。</p>";
+    form.innerHTML = "<h2>题目不存在</h2><p>可能已被删除，或链接参数有误。</p>";
     return;
   }
 
-  const diffConfig = getDifficultyConfig(problem.difficulty);
+  const options = DIFFICULTIES.map(
+    (d) => `<option value="${d.value}" style="color:${d.color};font-weight:700;" ${d.value === problem.difficulty ? "selected" : ""}>${d.label}</option>`,
+  ).join("");
 
-  detail.innerHTML = `
-    <h1>${extractProblemCode(problem.link)}</h1>
-    <p><strong>链接：</strong><a href="${problem.link}" target="_blank" rel="noopener noreferrer">${problem.link}</a></p>
-    <p><strong>难度：</strong><span style="color:${diffConfig.color};font-weight:700;">${diffConfig.label}</span></p>
-    <p><strong>当前题池：</strong>${getPoolName(problem.pool)}</p>
-    <p><strong>备注：</strong></p>
-    <p>${problem.note || "（暂无备注）"}</p>
+  form.innerHTML = `
+    <h2 class="settings-title">${extractProblemCode(problem.link)}</h2>
+
+    <label>
+      题目链接
+      <input id="editLink" type="url" required value="${problem.link}" />
+    </label>
+
+    <label>
+      题目难度
+      <select id="editDifficulty" required>${options}</select>
+    </label>
+
+    <label>
+      备注
+      <textarea id="editNote" rows="5" placeholder="写下你的理解、卡点、注意点...">${problem.note || ""}</textarea>
+    </label>
+
+    <div class="row">
+      <button class="button primary" type="submit">保存设置</button>
+      <button class="button danger" id="deleteInside" type="button">删除题目</button>
+    </div>
   `;
+
+  const difficultySelect = document.getElementById("editDifficulty");
+  const applySelectedDifficultyStyle = () => {
+    const cfg = getDifficultyConfig(difficultySelect.value);
+    difficultySelect.style.color = cfg.color;
+    difficultySelect.style.fontWeight = "700";
+  };
+  applySelectedDifficultyStyle();
+  difficultySelect.addEventListener("change", applySelectedDifficultyStyle);
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    updateProblem(problem.id, {
+      link: document.getElementById("editLink").value.trim(),
+      difficulty: difficultySelect.value,
+      note: document.getElementById("editNote").value.trim(),
+    });
+
+    window.location.href = "index.html";
+  });
+
+  const deleteBtn = document.getElementById("deleteInside");
+  deleteBtn.addEventListener("click", () => {
+    deleteProblem(problem.id);
+    window.location.href = "index.html";
+  });
 })();
