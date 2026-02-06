@@ -107,9 +107,9 @@ function showToast(message) {
 }
 
 function getUpgradeButtonText(poolKey) {
-  if (poolKey === "todo") return "已理解";
-  if (poolKey === "coding") return "AC";
-  return "已在最终题池";
+  if (poolKey === "todo") return "理解";
+  if (poolKey === "coding") return "提交";
+  return "AC";
 }
 
 function initBoard() {
