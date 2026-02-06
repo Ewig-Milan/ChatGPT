@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加入题池</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="form-wrap">
+      <h1>加入题池</h1>
+      <form id="addForm" class="card">
+        <label>
+          题目链接
+          <input id="problemLink" type="url" placeholder="https://..." required />
+        </label>
+
+        <label>
+          题目难度
+          <select id="problemDifficulty" required></select>
+        </label>
+
+        <label>
+          备注
+          <textarea id="problemNote" rows="4" placeholder="写下你的理解、卡点、注意点..."></textarea>
+        </label>
+
+        <div class="row">
+          <button class="button primary" type="submit">加入未开始题池</button>
+          <a class="button ghost" href="index.html">返回首页</a>
+        </div>
+      </form>
+    </main>
+
+    <script src="app.js"></script>
+    <script src="add.js"></script>
+  </body>
+</html>
