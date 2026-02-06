@@ -1,5 +1,5 @@
 :root {
-  --bg: #f6f8fc;
+  --bg: #f3f7ff;
   --card: #ffffff;
   --text: #1f2937;
   --muted: #6b7280;
@@ -16,8 +16,20 @@
 body {
   margin: 0;
   font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(126, 179, 255, 0.22), transparent 28%),
+    radial-gradient(circle at 90% 20%, rgba(170, 139, 255, 0.2), transparent 30%),
+    radial-gradient(circle at 50% 90%, rgba(123, 216, 154, 0.2), transparent 28%),
+    var(--bg);
+  background-size: 120% 120%;
   color: var(--text);
+  animation: bgFlow 14s ease-in-out infinite;
+}
+
+@keyframes bgFlow {
+  0% { background-position: 0% 0%, 100% 20%, 50% 100%; }
+  50% { background-position: 12% 8%, 88% 18%, 48% 92%; }
+  100% { background-position: 0% 0%, 100% 20%, 50% 100%; }
 }
 
 .topbar {
@@ -28,9 +40,7 @@ body {
 }
 
 h1,
-h2 {
-  margin: 0;
-}
+h2 { margin: 0; }
 
 .board {
   display: grid;
@@ -41,9 +51,7 @@ h2 {
 }
 
 @media (max-width: 1080px) {
-  .board {
-    grid-template-columns: 1fr;
-  }
+  .board { grid-template-columns: 1fr; }
 }
 
 .pool {
@@ -54,9 +62,7 @@ h2 {
   transition: box-shadow 0.25s ease;
 }
 
-.pool:hover {
-  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.12);
-}
+.pool:hover { box-shadow: 0 10px 28px rgba(17, 24, 39, 0.12); }
 
 .pool h2 {
   display: flex;
@@ -65,15 +71,7 @@ h2 {
   margin-bottom: 0.8rem;
 }
 
-.pool h2 small {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.pool-todo {
-  background: var(--blue-soft);
-  border: 1px solid #badcff;
-}
+.pool-todo { background: var(--blue-soft); border: 1px solid #badcff; }
 
 .pool-coding {
   background: linear-gradient(120deg, #f4ebff, #eaf2ff, #f4ebff);
@@ -88,15 +86,9 @@ h2 {
   100% { background-position: 0% 50%; }
 }
 
-.pool-done {
-  background: var(--green-soft);
-  border: 1px solid #b8e7c3;
-}
+.pool-done { background: var(--green-soft); border: 1px solid #b8e7c3; }
 
-.problem-list {
-  display: grid;
-  gap: 0.75rem;
-}
+.problem-list { display: grid; gap: 0.75rem; }
 
 .problem-card,
 .card {
@@ -107,9 +99,7 @@ h2 {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.problem-card {
-  cursor: pointer;
-}
+.problem-card { cursor: pointer; }
 
 .problem-card:hover,
 .card:hover {
@@ -117,11 +107,7 @@ h2 {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
 }
 
-.problem-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
+.problem-head { display: flex; flex-direction: column; gap: 0.4rem; }
 
 .problem-title {
   color: #5e9ff0;
@@ -132,13 +118,9 @@ h2 {
   letter-spacing: 0.2px;
 }
 
-.problem-title:hover {
-  color: #1e3a8a;
-}
+.problem-title:hover { color: #1e3a8a; }
 
-.difficulty {
-  font-weight: 700;
-}
+.difficulty { font-weight: 700; }
 
 .problem-note {
   color: #374151;
@@ -146,11 +128,7 @@ h2 {
   white-space: pre-wrap;
 }
 
-.problem-actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
+.problem-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
 .button {
   display: inline-flex;
@@ -165,60 +143,26 @@ h2 {
   transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.button:disabled:hover {
-  transform: none;
-}
+.button:hover { transform: translateY(-1px); }
+.button:disabled { opacity: 0.55; cursor: not-allowed; }
+.button:disabled:hover { transform: none; }
 
 .button.primary,
-.button.upgrade-btn {
-  background: var(--blue-main-light);
-  color: #fff;
-}
+.button.upgrade-btn { background: var(--blue-main-light); color: #fff; }
 
 .button.primary:hover,
-.button.upgrade-btn:hover {
-  background: var(--blue-main);
-}
+.button.upgrade-btn:hover { background: var(--blue-main); }
 
-.button.upgrade-btn {
-  font-size: 1rem;
-  padding: 0.65rem 1.1rem;
-}
+.button.upgrade-btn { font-size: 1rem; padding: 0.65rem 1.1rem; }
 
-.button.ghost {
-  background: #eef2f7;
-  color: #111827;
-}
+.button.ghost { background: #eef2f7; color: #111827; }
+.button.ghost:hover { background: #e5eaf2; }
 
-.button.ghost:hover {
-  background: #e5eaf2;
-}
+.button.danger { background: #ef4444; color: #fff; }
+.button.danger:hover { background: #dc2626; }
 
-.button.danger {
-  background: #ef4444;
-  color: #fff;
-}
-
-.button.danger:hover {
-  background: #dc2626;
-}
-
-.button.strong {
-  background: #2f76bc;
-}
-
-.button.strong:hover {
-  background: #1f5f99;
-}
+.button.strong { background: #2f76bc; }
+.button.strong:hover { background: #1f5f99; }
 
 .form-wrap {
   max-width: 760px;
@@ -228,9 +172,7 @@ h2 {
   gap: 1rem;
 }
 
-.settings-title {
-  margin-bottom: 0.8rem;
-}
+.settings-title { margin-bottom: 0.8rem; }
 
 label {
   display: grid;
@@ -239,9 +181,7 @@ label {
   font-weight: 600;
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
   width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 8px;
@@ -249,36 +189,50 @@ textarea {
   font: inherit;
 }
 
-select {
-  font-weight: 700;
-}
+select { font-weight: 700; }
 
-.row {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
+.row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-.empty {
-  color: var(--muted);
-  margin-top: 0.2rem;
-}
+.empty { color: var(--muted); margin-top: 0.2rem; }
 
-.card-pop-in {
-  animation: popIn 0.45s ease;
-}
+.card-pop-in { animation: popIn 0.45s ease; }
+.card-upgrade-in { animation: upgradePulse 0.7s ease; }
 
 @keyframes popIn {
   0% { opacity: 0; transform: translateY(8px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.submitting {
-  animation: submitPulse 0.35s ease;
+@keyframes upgradePulse {
+  0% { box-shadow: 0 0 0 0 rgba(79, 143, 203, 0.45); transform: scale(0.98); }
+  60% { box-shadow: 0 0 0 14px rgba(79, 143, 203, 0); transform: scale(1.01); }
+  100% { box-shadow: 0 0 0 0 rgba(79, 143, 203, 0); transform: scale(1); }
 }
+
+.submitting { animation: submitPulse 0.35s ease; }
 
 @keyframes submitPulse {
   0% { transform: scale(1); }
   50% { transform: scale(0.995); }
   100% { transform: scale(1); }
+}
+
+.upgrade-toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 999;
+  background: #1f5f99;
+  color: #fff;
+  border-radius: 12px;
+  padding: 0.65rem 0.9rem;
+  box-shadow: 0 10px 26px rgba(31, 95, 153, 0.35);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.upgrade-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

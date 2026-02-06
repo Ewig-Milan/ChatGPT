@@ -1,10 +1,12 @@
 const STORAGE_KEY = "oi-problem-pools";
 const NEW_ADDED_KEY = "oi-problem-last-added";
+const UPGRADED_ANIMATED_KEY = "oi-problem-upgraded-id";
+const UPGRADED_MESSAGE_KEY = "oi-problem-upgraded-message";
 
 const POOLS = [
-  { key: "todo", name: "未开始的题", className: "pool pool-todo", badge: "蓝色分支" },
-  { key: "coding", name: "已理解，待编码", className: "pool pool-coding", badge: "进行中" },
-  { key: "done", name: "已完成的题", className: "pool pool-done", badge: "绿色分支" },
+  { key: "todo", name: "To-do List", className: "pool pool-todo", badge: "" },
+  { key: "coding", name: "Coding", className: "pool pool-coding", badge: "" },
+  { key: "done", name: "Done！", className: "pool pool-done", badge: "" },
 ];
 
 const DIFFICULTIES = [
@@ -14,6 +16,8 @@ const DIFFICULTIES = [
   { value: "provincial-minus", label: "省选/NOI-", color: "#9344c8" },
   { value: "noi", label: "NOI/NOI+/CTSC", color: "#131e66" },
 ];
+
+const ENCOURAGEMENTS = ["Well done！", "Nice work！", "Keep going！", "太强啦！", "继续冲！"];
 
 function uuid() {
   return `${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
@@ -28,11 +32,13 @@ function extractProblemCode(link) {
   return match ? match[1] : link;
 }
 
+function randomEncouragement() {
+  return ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+}
+
 function loadProblems() {
   const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) {
-    return [];
-  }
+  if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
@@ -53,54 +59,67 @@ function addProblem(problem) {
 
 function updateProblem(id, patch) {
   const all = loadProblems();
-  const updated = all.map((item) => (item.id === id ? { ...item, ...patch } : item));
-  saveProblems(updated);
+  saveProblems(all.map((item) => (item.id === id ? { ...item, ...patch } : item)));
 }
 
 function deleteProblem(id) {
   const all = loadProblems();
-  const updated = all.filter((item) => item.id !== id);
-  saveProblems(updated);
+  saveProblems(all.filter((item) => item.id !== id));
 }
 
 function moveProblemToNextPool(id) {
   const all = loadProblems();
   const nextOrder = { todo: "coding", coding: "done", done: "done" };
-  const updated = all.map((item) => {
-    if (item.id !== id) {
-      return item;
-    }
-    return { ...item, pool: nextOrder[item.pool] || "done" };
-  });
-  saveProblems(updated);
+  saveProblems(
+    all.map((item) => (item.id === id ? { ...item, pool: nextOrder[item.pool] || "done" } : item)),
+  );
 }
 
 function findProblemById(id) {
   return loadProblems().find((item) => item.id === id);
 }
 
-function getPoolName(poolKey) {
-  const pool = POOLS.find((item) => item.key === poolKey);
-  return pool ? pool.name : poolKey;
-}
-
 function getNewlyAddedId() {
   const id = sessionStorage.getItem(NEW_ADDED_KEY);
-  if (id) {
-    sessionStorage.removeItem(NEW_ADDED_KEY);
-  }
+  if (id) sessionStorage.removeItem(NEW_ADDED_KEY);
   return id;
+}
+
+function consumeUpgradeEffect() {
+  const id = sessionStorage.getItem(UPGRADED_ANIMATED_KEY);
+  const message = sessionStorage.getItem(UPGRADED_MESSAGE_KEY);
+  if (id) sessionStorage.removeItem(UPGRADED_ANIMATED_KEY);
+  if (message) sessionStorage.removeItem(UPGRADED_MESSAGE_KEY);
+  return { id, message };
+}
+
+function showToast(message) {
+  if (!message) return;
+  const toast = document.createElement("div");
+  toast.className = "upgrade-toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add("visible"), 20);
+  setTimeout(() => {
+    toast.classList.remove("visible");
+    setTimeout(() => toast.remove(), 300);
+  }, 1700);
+}
+
+function getUpgradeButtonText(poolKey) {
+  if (poolKey === "todo") return "已理解";
+  if (poolKey === "coding") return "AC";
+  return "已在最终题池";
 }
 
 function initBoard() {
   const board = document.getElementById("board");
-  if (!board) {
-    return;
-  }
+  if (!board) return;
 
   const problems = loadProblems();
   const template = document.getElementById("problemCardTemplate");
   const newId = getNewlyAddedId();
+  const upgraded = consumeUpgradeEffect();
   board.innerHTML = "";
 
   POOLS.forEach((pool, poolIndex) => {
@@ -108,7 +127,7 @@ function initBoard() {
     section.className = pool.className;
 
     const title = document.createElement("h2");
-    title.innerHTML = `${pool.name} <small>${pool.badge}</small>`;
+    title.innerHTML = pool.badge ? `${pool.name} <small>${pool.badge}</small>` : pool.name;
     section.appendChild(title);
 
     const list = document.createElement("div");
@@ -136,31 +155,30 @@ function initBoard() {
       diffTag.style.color = diffConfig.color;
       diffTag.style.fontWeight = "700";
 
-      const note = node.querySelector(".problem-note");
-      note.textContent = problem.note || "（暂无备注）";
+      node.querySelector(".problem-note").textContent = problem.note || "（暂无备注）";
 
       const upgrade = node.querySelector(".upgrade-btn");
+      upgrade.textContent = getUpgradeButtonText(pool.key);
       if (poolIndex === POOLS.length - 1) {
         upgrade.disabled = true;
-        upgrade.textContent = "已在最终题池";
       } else {
         upgrade.addEventListener("click", (event) => {
           event.stopPropagation();
           moveProblemToNextPool(problem.id);
+          const msg = randomEncouragement();
+          sessionStorage.setItem(UPGRADED_ANIMATED_KEY, problem.id);
+          sessionStorage.setItem(UPGRADED_MESSAGE_KEY, msg);
           initBoard();
         });
       }
 
       node.addEventListener("click", (event) => {
-        if (event.target.closest(".upgrade-btn") || event.target.closest(".problem-title")) {
-          return;
-        }
+        if (event.target.closest(".upgrade-btn") || event.target.closest(".problem-title")) return;
         window.location.href = `problem.html?id=${encodeURIComponent(problem.id)}`;
       });
 
-      if (problem.id === newId) {
-        node.classList.add("card-pop-in");
-      }
+      if (problem.id === newId) node.classList.add("card-pop-in");
+      if (problem.id === upgraded.id) node.classList.add("card-upgrade-in");
 
       list.appendChild(node);
     });
@@ -168,6 +186,8 @@ function initBoard() {
     section.appendChild(list);
     board.appendChild(section);
   });
+
+  showToast(upgraded.message);
 }
 
 if (document.readyState === "loading") {
