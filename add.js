@@ -25,19 +25,22 @@
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    form.classList.add("submitting");
 
     const link = document.getElementById("problemLink").value.trim();
     const difficulty = document.getElementById("problemDifficulty").value;
     const note = document.getElementById("problemNote").value.trim();
+    const id = uuid();
 
     addProblem({
-      id: uuid(),
+      id,
       link,
       difficulty,
       note,
       pool: "todo",
     });
 
+    sessionStorage.setItem("oi-problem-last-added", id);
     window.location.href = "index.html";
   });
 })();

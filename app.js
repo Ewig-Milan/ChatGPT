@@ -1,4 +1,5 @@
 const STORAGE_KEY = "oi-problem-pools";
+const NEW_ADDED_KEY = "oi-problem-last-added";
 
 const POOLS = [
   { key: "todo", name: "未开始的题", className: "pool pool-todo", badge: "蓝色分支" },
@@ -77,6 +78,14 @@ function getPoolName(poolKey) {
   return pool ? pool.name : poolKey;
 }
 
+function getNewlyAddedId() {
+  const id = sessionStorage.getItem(NEW_ADDED_KEY);
+  if (id) {
+    sessionStorage.removeItem(NEW_ADDED_KEY);
+  }
+  return id;
+}
+
 function initBoard() {
   const board = document.getElementById("board");
   if (!board) {
@@ -85,6 +94,7 @@ function initBoard() {
 
   const problems = loadProblems();
   const template = document.getElementById("problemCardTemplate");
+  const newId = getNewlyAddedId();
   board.innerHTML = "";
 
   POOLS.forEach((pool, poolIndex) => {
@@ -103,7 +113,7 @@ function initBoard() {
     if (items.length === 0) {
       const empty = document.createElement("p");
       empty.className = "empty";
-      empty.textContent = "暂时没有题目，点右上角“加入题池”开始吧。";
+      empty.textContent = "暂时没有题目，点右上角“新增题目”开始吧。";
       list.appendChild(empty);
     }
 
@@ -113,10 +123,7 @@ function initBoard() {
 
       const titleLink = node.querySelector(".problem-title");
       titleLink.textContent = extractProblemCode(problem.link);
-      titleLink.href = `problem.html?id=${encodeURIComponent(problem.id)}`;
-
-      const sourceLink = node.querySelector(".source-link");
-      sourceLink.href = problem.link;
+      titleLink.href = problem.link;
 
       const diffTag = node.querySelector(".difficulty");
       diffTag.textContent = diffConfig.label;
@@ -142,6 +149,10 @@ function initBoard() {
         deleteProblem(problem.id);
         initBoard();
       });
+
+      if (problem.id === newId) {
+        node.classList.add("card-pop-in");
+      }
 
       list.appendChild(node);
     });
