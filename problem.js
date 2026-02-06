@@ -30,7 +30,7 @@
       <select id="editDifficulty" required>${options}</select>
     </label>
 
-    <label class="label-plain">
+    <label>
       备注
       <textarea id="editNote" rows="5" placeholder="写下你的理解、卡点、注意点...">${problem.note || ""}</textarea>
     </label>

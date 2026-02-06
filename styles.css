@@ -206,6 +206,8 @@ input, select, textarea {
   font: inherit;
 }
 
+input, textarea { font-weight: 400; }
+
 select { font-weight: 700; }
 
 .row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -288,4 +290,3 @@ select { font-weight: 700; }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.08); }
 }
 
-.label-plain { font-weight: 400; }
