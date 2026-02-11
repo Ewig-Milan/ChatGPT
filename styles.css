@@ -296,3 +296,160 @@ select { font-weight: 700; }
   75% { opacity: 1; }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.08); }
 }
+
+.game-wrap {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(420px, 1.5fr) minmax(260px, 1fr);
+  gap: 1rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.game-panel {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.game-rule-list {
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.game-stage {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.game-status {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.game-status strong {
+  color: #0f172a;
+}
+
+.command-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
+}
+
+.preset-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.game-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.game-hint {
+  margin: 0;
+  padding: 0.6rem 0.7rem;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  border: 1px solid #bfdbfe;
+}
+
+.log-list {
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+  max-height: 60vh;
+  overflow: auto;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.log-item {
+  padding: 0.4rem 0.55rem;
+  border-radius: 8px;
+  list-style: decimal;
+  background: #f8fafc;
+}
+
+.log-good {
+  border-left: 4px solid #22c55e;
+}
+
+.log-warn {
+  border-left: 4px solid #ef4444;
+}
+
+.log-result {
+  border-left: 4px solid #7c3aed;
+  font-weight: 700;
+}
+
+@media (max-width: 1180px) {
+  .game-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .command-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.game-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.difficulty-line {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.best-score {
+  color: #334155;
+  font-weight: 700;
+}
+
+.status-bars {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.bar-wrap {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  color: #334155;
+}
+
+.bar {
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+}
+
+.bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  transition: width 0.2s ease;
+}
+
+.bar.danger i {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+}
+
+.bar.good i {
+  background: linear-gradient(90deg, #60a5fa, #22c55e);
+}
