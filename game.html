@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>C++ 摸鱼小游戏（OIer版）</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>C++ 摸鱼小游戏（OIer版）</h1>
+      <div class="row">
+        <a class="button ghost" href="index.html">返回题单</a>
+      </div>
+    </header>
+
+    <main class="game-wrap">
+      <section class="game-panel">
+        <h2>玩法说明</h2>
+        <ul class="game-rule-list">
+          <li>你有 90 秒，尽量在不被教练抓到的情况下积累 <strong>摸鱼值</strong>。</li>
+          <li>输入“类 C++ 指令”并执行，不同指令有不同收益和风险。</li>
+          <li>当 <code>alertLevel</code> 到达 100 就会被抓包，游戏立刻结束。</li>
+          <li>完成连续操作可触发 <strong>combo</strong>，得分会更高。</li>
+        </ul>
+      </section>
+
+      <section class="game-panel game-stage">
+        <div class="game-status">
+          <div><span>剩余时间：</span><strong id="timeLeft">90</strong>s</div>
+          <div><span>摸鱼值：</span><strong id="score">0</strong></div>
+          <div><span>alertLevel：</span><strong id="alert">0</strong>/100</div>
+          <div><span>Combo：</span><strong id="combo">x1</strong></div>
+        </div>
+
+        <label for="commandInput">输入指令（示例：<code>while(true)摸鱼;</code>）</label>
+        <div class="command-row">
+          <input
+            id="commandInput"
+            type="text"
+            placeholder="例如：vector<int> fish(10);"
+            autocomplete="off"
+          />
+          <button id="runBtn" class="button primary" type="button">执行</button>
+          <button id="hintBtn" class="button ghost" type="button">随机提示</button>
+        </div>
+
+        <p id="hintText" class="game-hint">可用关键词：vector, while, priority_queue, bitset, memset, ios::sync_with_stdio</p>
+
+        <div class="preset-actions" aria-label="快捷指令">
+          <button class="button ghost preset-btn" data-command="vector<int> fish(20);" type="button">vector 摸鱼</button>
+          <button class="button ghost preset-btn" data-command="while(true)摸鱼;" type="button">无限循环</button>
+          <button class="button ghost preset-btn" data-command="priority_queue<Task> pq;" type="button">优先摸鱼</button>
+          <button class="button ghost preset-btn" data-command="bitset<1000> bs;" type="button">位运算摸鱼</button>
+          <button class="button ghost preset-btn" data-command="memset(brain, 0, sizeof(brain));" type="button">重置大脑</button>
+          <button class="button ghost preset-btn" data-command="ios::sync_with_stdio(false);" type="button">IO 加速摸鱼</button>
+        </div>
+
+        <div class="game-actions">
+          <button id="startBtn" class="button strong" type="button">开始新一局</button>
+        </div>
+      </section>
+
+      <section class="game-panel">
+        <h2>操作日志</h2>
+        <ol id="logList" class="log-list"></ol>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
