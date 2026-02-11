@@ -400,3 +400,56 @@ select { font-weight: 700; }
     grid-template-columns: 1fr;
   }
 }
+
+.game-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.difficulty-line {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.best-score {
+  color: #334155;
+  font-weight: 700;
+}
+
+.status-bars {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.bar-wrap {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  color: #334155;
+}
+
+.bar {
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+}
+
+.bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  transition: width 0.2s ease;
+}
+
+.bar.danger i {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+}
+
+.bar.good i {
+  background: linear-gradient(90deg, #60a5fa, #22c55e);
+}
